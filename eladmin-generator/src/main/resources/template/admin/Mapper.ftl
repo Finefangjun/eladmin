@@ -1,5 +1,5 @@
 /*
-*  Copyright 2019-2025 Zheng Jie
+*  Copyright 2019-2025 zj
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -15,14 +15,14 @@
 */
 package ${package}.service.mapstruct;
 
-import me.zhengjie.base.BaseMapper;
+import stm.bot.base.BaseMapper;
 import ${package}.domain.${className};
 import ${package}.service.dto.${className}Dto;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 /**
-* @website https://eladmin.vip
+* @website https://awss.vip.com
 * @author ${author}
 * @date ${date}
 **/

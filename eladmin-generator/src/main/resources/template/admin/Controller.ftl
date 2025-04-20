@@ -1,5 +1,5 @@
 /*
-*  Copyright 2019-2025 Zheng Jie
+*  Copyright 2019-2025 zj
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 */
 package ${package}.rest;
 
-import me.zhengjie.annotation.Log;
+import stm.bot.annotation.Log;
 import ${package}.domain.${className};
 import ${package}.service.${className}Service;
 import ${package}.service.dto.${className}QueryCriteria;
@@ -29,11 +29,11 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
-import me.zhengjie.utils.PageResult;
+import stm.bot.utils.PageResult;
 import ${package}.service.dto.${className}Dto;
 
 /**
-* @website https://eladmin.vip
+* @website https://awss.vip.com
 * @author ${author}
 * @date ${date}
 **/

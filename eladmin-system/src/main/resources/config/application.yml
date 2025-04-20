@@ -32,26 +32,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
-  redis:
-    #数据库索引
-    database: ${REDIS_DB:0}
-    host: ${REDIS_HOST:127.0.0.1}
-    port: ${REDIS_PORT:6379}
-    password: ${REDIS_PWD:}
-    #连接超时时间
-    timeout: 5000
-    # 连接池配置
-    lettuce:
-      pool:
-        # 连接池最大连接数
-        max-active: 30
-        # 连接池最大阻塞等待时间（毫秒），负值表示没有限制
-        max-wait: -1
-        # 连接池中的最大空闲连接数
-        max-idle: 20
-        # 连接池中的最小空闲连接数
-        min-idle: 1
-
 task:
   pool:
     # 核心线程池大小
@@ -74,4 +54,5 @@ code:
 
 #密码加密传输，前端公钥加密，后端私钥解密
 rsa:
-  private_key: MIIBUwIBADANBgkqhkiG9w0BAQEFAASCAT0wggE5AgEAAkEA0vfvyTdGJkdbHkB8mp0f3FE0GYP3AYPaJF7jUd1M0XxFSE2ceK3k2kw20YvQ09NJKk+OMjWQl9WitG9pB6tSCQIDAQABAkA2SimBrWC2/wvauBuYqjCFwLvYiRYqZKThUS3MZlebXJiLB+Ue/gUifAAKIg1avttUZsHBHrop4qfJCwAI0+YRAiEA+W3NK/RaXtnRqmoUUkb59zsZUBLpvZgQPfj1MhyHDz0CIQDYhsAhPJ3mgS64NbUZmGWuuNKp5coY2GIj/zYDMJp6vQIgUueLFXv/eZ1ekgz2Oi67MNCk5jeTF2BurZqNLR3MSmUCIFT3Q6uHMtsB9Eha4u7hS31tj1UWE+D+ADzp59MGnoftAiBeHT7gDMuqeJHPL4b+kC+gzV4FGTfhR9q3tTbklZkD2A==
+  private_key: MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDIyuCsjpwBhbhoWGUMOODu0drjdsoPNnrPYD5b3/ivDuI0nZ6mIubgp3xuRuV4mSztv0Qkvu88P7mDSehsthvkVViK+9BluXNGtbbJH1JXo4rtYNYeNjuqurv8DSsWDFUVLlJe8nl4e1/30VVeeQmwN2GufOFCzfGHOCk9Xl2/cUF1I7997uoAN4b+WEtjMmMiOeI+UumhYm2CEE3vg71As9X7ZieL31W7YAao9xBDVtH7CHIV0Ax5cpVrN8stfZcyTqBqk1+UzfC1YAiSwf6d2wOOZqDy+pw5nSu/9+X//cuRzkj0m4AQ659SCsudkxqSoIBSpx58jdg8VJVHHI73AgMBAAECggEBAJqZenviIcQaTW4qAUNz19yJv9s7b0BfVhetptXekP9YmlqgsbKBVPrMekX+WFiOt8UmazVPvavJ9PBdS5PIc5lPDSmV0VNBgryC1QXuE9xek21KDhKc9zvxIyRijzYesLPqQonQcC6P78hDaVOgJhGD0rYieN6S6tCOMVKLAeuPzwbS+aH/2Zq3V7KOJwclF+XuR0+9CVxybLrOOWIWIJ3Z3ir3xX+TXIO6POf7fyETPWLbrJJEPIRERpCI8UA4v18V8OcZOCYuQ/38oz1PGs+wEjhAA8GKcnJJrLUzqWzpoD68AtTfYU2Cr8fuUclAykGf7IfNzo5Vpid6kWwnAEECgYEA5hGO31iKLhEzVV8kFIcrOxOOQvuAxYA0mQG2x69e7hASsZMPghhdCGRef2woEZUct2x+eS/x76lKm9SnbmVQvWMV6nwtUpdxIGPbvtbEtDOQlHRYzhJlARVkB2b1oCNTWkBxg8yffiHqHQdBQH4UQW61DQNbeDQvIxv72YFUej8CgYEA32yU5L9pgUsVEMxJSn8ve+85m6ir0mFy8W7xf/+ndtVBpE/gDMSJKSlaNO/atWYIG91+q/n5ZJaE52a2/eej1R9fl7rC/3UFGFaL2eiKpzj71A8vjRnceGVIbY0j93yAKnOoIas68kM+UkkC19BHFa7q89QfpEXfchy14AsPjUkCgYBsWTh/1qK8rz0Np5DGWiHx4HPO98LdQFOE+1mpEN4UH12uYyOakP6/RQV73OPB5AdyGpY1XG8D/yYz3SI8y1oK1u8rTu/JRajxKBYE+gAJHX+pamGoKuGGcRx6n/JtSDWo+1B6UZOLQ02N/iyswrOnXQvG5R3erjTExBkHhfDS4QKBgQC6U3RsvFEBmZss0iGBNkZkZiI19Vmt7sUMIgjXRV7klH7UyCRCoZj9sdXf9fQAeeHjUznztFnPEFQwIxIS955C+5IeGIvMvUuNe4fQJ8WSJcymki+Gzf12jojzi9Rl7fd479FUmtdi+L89olPzpWfS5nhc9heZSQhKwzTObor+uQKBgQDVAiKbJVMt4/HlVlvNlK5CXek/hG8ewvPuuSCXgaupEyRj+Tr2O4pXDCvAhjTt/c5YrPNMmJDaQ+1asMsuX9GyDFGW6PNuuMyYFnJFDKK+3YpTVAI1EaoCf9mRXDmuRzcqISyjFZBsOFQMVG9bJwVVvnNr1VyyppyyKuN3azOGSQ==
+  public_key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyMrgrI6cAYW4aFhlDDjg7tHa43bKDzZ6z2A+W9/4rw7iNJ2epiLm4Kd8bkbleJks7b9EJL7vPD+5g0nobLYb5FVYivvQZblzRrW2yR9SV6OK7WDWHjY7qrq7/A0rFgxVFS5SXvJ5eHtf99FVXnkJsDdhrnzhQs3xhzgpPV5dv3FBdSO/fe7qADeG/lhLYzJjIjniPlLpoWJtghBN74O9QLPV+2Yni99Vu2AGqPcQQ1bR+whyFdAMeXKVazfLLX2XMk6gapNflM3wtWAIksH+ndsDjmag8vqcOZ0rv/fl//3Lkc5I9JuAEOufUgrLnZMakqCAUqcefI3YPFSVRxyO9wIDAQAB

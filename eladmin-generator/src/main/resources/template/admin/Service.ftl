@@ -1,5 +1,5 @@
 /*
-*  Copyright 2019-2025 Zheng Jie
+*  Copyright 2019-2025 zj
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -23,10 +23,10 @@ import java.util.Map;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
-import me.zhengjie.utils.PageResult;
+import stm.bot.utils.PageResult;
 
 /**
-* @website https://eladmin.vip
+* @website https://awss.vip.com
 * @description 服务接口
 * @author ${author}
 * @date ${date}

@@ -1,5 +1,5 @@
 /*
-*  Copyright 2019-2025 Zheng Jie
+*  Copyright 2019-2025 zj
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import com.alibaba.fastjson2.serializer.ToStringSerializer;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
-* @website https://eladmin.vip
+* @website https://awss.vip.com
 * @description /
 * @author ${author}
 * @date ${date}
