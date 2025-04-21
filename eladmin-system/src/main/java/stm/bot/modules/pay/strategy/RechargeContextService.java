@@ -36,7 +36,7 @@ public class RechargeContextService implements IRechargeContextService {
         if (ObjectUtils.isEmpty(tbPayUser)) {
             return new ResponseEntity<>(dto.getMerchantNo() + "错误1!", HttpStatus.BAD_REQUEST);
         }
-        TzPayMethod tzPayMethod = tzPayMethodRepository.findByChannelIdAndSysMerchant(dto.getPayCode(), dto.getMerchantNo());
+        TzPayMethod tzPayMethod = tzPayMethodRepository.findByMethodIdAndSysMerchant(dto.getPayCode(), dto.getMerchantNo());
         if (ObjectUtils.isEmpty(tzPayMethod)) {
             return new ResponseEntity<>(dto.getMerchantNo() + "错误2!", HttpStatus.BAD_REQUEST);
         }

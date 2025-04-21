@@ -22,6 +22,7 @@ public class PayInputDto implements Serializable {
     String createTime;
     //订单ip
     String createIp;
+    //支付方式
     String payCode;
     //回调地址
     String notifyUrl;
@@ -32,5 +33,6 @@ public class PayInputDto implements Serializable {
     String sign;
     //用户名
     String userId;
+    //手机号
     String mobile;
 }

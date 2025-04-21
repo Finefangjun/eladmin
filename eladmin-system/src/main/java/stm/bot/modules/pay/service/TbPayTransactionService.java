@@ -80,4 +80,6 @@ public interface TbPayTransactionService {
     * @throws IOException /
     */
     void download(List<TbPayTransactionDto> all, HttpServletResponse response) throws IOException;
+
+    TbPayTransaction findByOrderNo(String orderNo);
 }

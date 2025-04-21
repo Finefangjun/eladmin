@@ -80,4 +80,6 @@ public interface TbPayUserService {
     * @throws IOException /
     */
     void download(List<TbPayUserDto> all, HttpServletResponse response) throws IOException;
+
+    TbPayUser findBySysMerchant(String sysMerchant);
 }

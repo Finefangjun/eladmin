@@ -122,4 +122,9 @@ public class TbPayTransactionServiceImpl implements TbPayTransactionService {
         }
         FileUtil.downloadExcel(list, response);
     }
+
+    @Override
+    public TbPayTransaction findByOrderNo(String orderNo) {
+        return null;
+    }
 }

@@ -69,7 +69,6 @@ public class LeiDianStrategy implements RechargeStrategy {
         try {
             log.info(tzPayMethod.getApiUrl() + " LeiDianStrategy 请求数据：" + params);
             HttpResponse httpResponse = HttpRequest.post(url)
-                    .header("accept", "*/*")
                     .header("Content-type", "application/x-www-form-urlencoded;charset=UTF-8")
                     .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36")
                     .body(params)
@@ -116,6 +115,7 @@ public class LeiDianStrategy implements RechargeStrategy {
         if (midJson.containsKey("pay_url")) {
             returnUrl = midJson.getString("pay_url");
         }
+        resultJson.put("payUrl", returnUrl);
         resultJson.put("payUrl", returnUrl);
         return new ResponseEntity<>(resultJson, HttpStatus.OK);
     }

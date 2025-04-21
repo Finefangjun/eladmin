@@ -110,4 +110,9 @@ public class TbPayUserServiceImpl implements TbPayUserService {
         }
         FileUtil.downloadExcel(list, response);
     }
+
+    @Override
+    public TbPayUser findBySysMerchant(String sysMerchant) {
+        return tbPayUserRepository.findBySysMerchant(sysMerchant);
+    }
 }
