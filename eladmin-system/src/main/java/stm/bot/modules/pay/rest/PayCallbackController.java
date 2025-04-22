@@ -138,13 +138,14 @@ public class PayCallbackController {
             HttpResponse httpResponse = null;
             try {
                 Thread.sleep(1000);
+                log.info("postLeiDianPayCallBack url " + url + " params " + params);
                 httpResponse = HttpRequest.post(url)
                         .header("Content-type", "application/x-www-form-urlencoded;charset=UTF-8")
                         .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36")
                         .body(params)
                         .execute();
             } catch (Exception e) {
-                log.info("postDingRunPayCallBack调用接口异常请求信息：url:" + url + "   , params:" + params + "  ,错误信息：" + e.getMessage());
+                log.info("postLeiDianPayCallBack 调用接口异常请求信息：url:" + url + "   , params:" + params + "  ,错误信息：" + e.getMessage());
             }
 
             if (httpResponse == null || httpResponse.getStatus() != 200 || StringUtils.isEmpty(httpResponse.body())) {

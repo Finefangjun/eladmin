@@ -1,49 +1,46 @@
 /*
-*  Copyright 2019-2025 zj
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*  http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*/
+ *  Copyright 2019-2025 zj
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package stm.bot.modules.pay.service.impl;
 
-import stm.bot.modules.pay.domain.TbPayTransaction;
-import stm.bot.utils.ValidationUtil;
-import stm.bot.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import stm.bot.modules.pay.domain.TbPayTransaction;
 import stm.bot.modules.pay.repository.TbPayTransactionRepository;
 import stm.bot.modules.pay.service.TbPayTransactionService;
 import stm.bot.modules.pay.service.dto.TbPayTransactionDto;
 import stm.bot.modules.pay.service.dto.TbPayTransactionQueryCriteria;
 import stm.bot.modules.pay.service.mapstruct.TbPayTransactionMapper;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import stm.bot.utils.PageUtil;
-import stm.bot.utils.QueryHelp;
-import java.util.List;
-import java.util.Map;
-import java.io.IOException;
+import stm.bot.utils.*;
+
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import stm.bot.utils.PageResult;
+import java.util.List;
+import java.util.Map;
 
 /**
-* @website https://awss.vip.com
-* @description 服务实现
-* @author admin
-* @date 2025-04-18
-**/
+ * @author admin
+ * @website https://awss.vip.com
+ * @description 服务实现
+ * @date 2025-04-18
+ **/
 @Service
 @RequiredArgsConstructor
 public class TbPayTransactionServiceImpl implements TbPayTransactionService {
@@ -52,21 +49,21 @@ public class TbPayTransactionServiceImpl implements TbPayTransactionService {
     private final TbPayTransactionMapper tbPayTransactionMapper;
 
     @Override
-    public PageResult<TbPayTransactionDto> queryAll(TbPayTransactionQueryCriteria criteria, Pageable pageable){
-        Page<TbPayTransaction> page = tbPayTransactionRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+    public PageResult<TbPayTransactionDto> queryAll(TbPayTransactionQueryCriteria criteria, Pageable pageable) {
+        Page<TbPayTransaction> page = tbPayTransactionRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         return PageUtil.toPage(page.map(tbPayTransactionMapper::toDto));
     }
 
     @Override
-    public List<TbPayTransactionDto> queryAll(TbPayTransactionQueryCriteria criteria){
-        return tbPayTransactionMapper.toDto(tbPayTransactionRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+    public List<TbPayTransactionDto> queryAll(TbPayTransactionQueryCriteria criteria) {
+        return tbPayTransactionMapper.toDto(tbPayTransactionRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
 
     @Override
     @Transactional
     public TbPayTransactionDto findById(Integer id) {
         TbPayTransaction tbPayTransaction = tbPayTransactionRepository.findById(id).orElseGet(TbPayTransaction::new);
-        ValidationUtil.isNull(tbPayTransaction.getId(),"TbPayTransaction","id",id);
+        ValidationUtil.isNull(tbPayTransaction.getId(), "TbPayTransaction", "id", id);
         return tbPayTransactionMapper.toDto(tbPayTransaction);
     }
 
@@ -80,7 +77,7 @@ public class TbPayTransactionServiceImpl implements TbPayTransactionService {
     @Transactional(rollbackFor = Exception.class)
     public void update(TbPayTransaction resources) {
         TbPayTransaction tbPayTransaction = tbPayTransactionRepository.findById(resources.getId()).orElseGet(TbPayTransaction::new);
-        ValidationUtil.isNull( tbPayTransaction.getId(),"TbPayTransaction","id",resources.getId());
+        ValidationUtil.isNull(tbPayTransaction.getId(), "TbPayTransaction", "id", resources.getId());
         tbPayTransaction.copy(resources);
         tbPayTransactionRepository.save(tbPayTransaction);
     }
@@ -96,7 +93,7 @@ public class TbPayTransactionServiceImpl implements TbPayTransactionService {
     public void download(List<TbPayTransactionDto> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (TbPayTransactionDto tbPayTransaction : all) {
-            Map<String,Object> map = new LinkedHashMap<>();
+            Map<String, Object> map = new LinkedHashMap<>();
             map.put("用户名", tbPayTransaction.getUsername());
             map.put("用户类型", tbPayTransaction.getUserType());
             map.put("pay_method_id", tbPayTransaction.getPayMid());
@@ -125,6 +122,6 @@ public class TbPayTransactionServiceImpl implements TbPayTransactionService {
 
     @Override
     public TbPayTransaction findByOrderNo(String orderNo) {
-        return null;
+        return tbPayTransactionRepository.findByOrderNo(orderNo);
     }
 }
