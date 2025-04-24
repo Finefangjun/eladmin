@@ -1,5 +1,7 @@
 package stm.bot.modules.pay.strategy;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -15,10 +17,12 @@ import stm.bot.modules.pay.repository.TzPayMethodRepository;
 import stm.bot.modules.pay.strategy.dto.PayInputDto;
 import stm.bot.modules.pay.strategy.util.ApplicationContextProvider;
 import stm.bot.modules.pay.strategy.util.CommonUtil;
+import stm.bot.modules.pay.strategy.util.StrategyUtil;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -32,18 +36,41 @@ public class RechargeContextService implements IRechargeContextService {
     @Override
     public ResponseEntity toRecharge(PayInputDto dto) {
         log.info("收到参数： " + dto.toString());
+        JSONObject errorJson = new JSONObject();
         TbPayUser tbPayUser = tbPayUserRepository.findBySysMerchant(dto.getMerchantNo());
         if (ObjectUtils.isEmpty(tbPayUser)) {
-            return new ResponseEntity<>(dto.getMerchantNo() + "错误1!", HttpStatus.BAD_REQUEST);
+            errorJson.put("code", "1001");
+            errorJson.put("msg", dto.getMerchantNo() + "错误1!");
+            return new ResponseEntity<>(errorJson, HttpStatus.OK);
         }
         TzPayMethod tzPayMethod = tzPayMethodRepository.findByMethodIdAndSysMerchant(dto.getPayCode(), dto.getMerchantNo());
         if (ObjectUtils.isEmpty(tzPayMethod)) {
-            return new ResponseEntity<>(dto.getMerchantNo() + "错误2!", HttpStatus.BAD_REQUEST);
+            errorJson.put("code", "1002");
+            errorJson.put("msg", dto.getMerchantNo() + "错误2!");
+            return new ResponseEntity<>(errorJson, HttpStatus.OK);
         }
+        //校验sign 根据signType md5
+        if (ObjectUtils.isNotEmpty(dto.getSignType()) && dto.getSignType().toUpperCase().contains("MD5")) {
+            Map<String, Object> signInMap = (Map<String, Object>) JSON.toJSON(dto);
+            String signParamString = StrategyUtil.createParamStringNotNullNotSign(signInMap);
+            String reSign = StrategyUtil.getSignThree(signParamString, tzPayMethod.getPublicKey()).toLowerCase();
+            if (!dto.getSign().toLowerCase().equals(reSign)) {
+                errorJson.put("code", "1005");
+                errorJson.put("msg", dto.getMerchantNo() + "验签失败!");
+                return new ResponseEntity<>(errorJson, HttpStatus.OK);
+            } else {
+                log.info(tbPayUser.getUserName() + "收到支付请求： " + dto.toString());
+            }
+
+        }
+
+
         String classAddres = tzPayMethod.getClassAddres();
         RechargeStrategy rechargeStrategy = (RechargeStrategy) ApplicationContextProvider.getBean(classAddres);
         if (ObjectUtils.isEmpty(rechargeStrategy)) {
-            return new ResponseEntity<>(dto.getMerchantNo() + "支付系统网关错误!", HttpStatus.BAD_REQUEST);
+            errorJson.put("code", "1003");
+            errorJson.put("msg", dto.getMerchantNo() + "支付系统网关错误!");
+            return new ResponseEntity<>(errorJson, HttpStatus.OK);
         }
 //        //账号日充值限额
 //        if (ObjectUtils.isNotEmpty(tzPayMethod.getMaxTotalRecharge()) && tzPayMethod.getMaxTotalRecharge() > 0) {

@@ -197,6 +197,28 @@ public class StrategyUtil {
         return content.toString();
     }
 
+    public static String createParamStringNotNullNotSign(Map<String, Object> params) {
+        List<String> keys = new ArrayList<>(params.keySet());
+        Collections.sort(keys);
+        StringBuffer content = new StringBuffer();
+        for (int i = 0; i < keys.size(); i++) {
+            String key = keys.get(i);
+            Object value = params.get(key);
+            if (key.toLowerCase().equals("sign")) {
+                continue;
+            }
+            if (ObjectUtils.isEmpty(value)) {
+                continue;
+            }
+            if (i == keys.size() - 1) {
+                content.append(key + "=" + (value != null ? value.toString() : ""));
+            } else {
+                content.append(key + "=" + (value != null ? value.toString() : "") + "&");
+            }
+        }
+        return content.toString();
+    }
+
     /**
      * 将Map形式的Form表单数据转换为value&
      *
@@ -320,8 +342,8 @@ public class StrategyUtil {
             }
         }
         String reStr = content.toString();
-        if(reStr.endsWith("&")){
-            reStr = reStr.substring(0,reStr.length()-1);
+        if (reStr.endsWith("&")) {
+            reStr = reStr.substring(0, reStr.length() - 1);
         }
         return reStr;
     }

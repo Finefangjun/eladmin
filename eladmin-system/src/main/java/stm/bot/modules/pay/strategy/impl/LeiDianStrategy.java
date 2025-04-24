@@ -76,47 +76,65 @@ public class LeiDianStrategy implements RechargeStrategy {
                     .execute();
             if (httpResponse == null || httpResponse.getStatus() != 200 || StringUtils.isEmpty(httpResponse.body())) {
                 log.error("LeiDianStrategy 调用接口异常，params：" + params + " ,  dto信息：" + dto.toString() + "  ,返回状态码：" + (httpResponse != null ? httpResponse.getStatus() : "") + ",返回信息：" + (httpResponse != null ? httpResponse.body() : ""));
+                resultJson.put("code", "101");
                 resultJson.put("payUrl", "");
-                return new ResponseEntity<>("返回信息异常" + resultJson, HttpStatus.BAD_REQUEST);
+                resultJson.put("msg", "返回信息异常");
+                return new ResponseEntity<>(resultJson, HttpStatus.BAD_REQUEST);
             }
             result = httpResponse.body();
         } catch (Exception e) {
             log.error("LeiDianStrategy 调用接口异常，params：" + params + " ,  dto信息：" + dto.toString() + "  ,错误信息：" + e.getMessage(), e);
+            resultJson.put("code", "101");
             resultJson.put("payUrl", "");
-            return new ResponseEntity<>("请求异常1" + resultJson, HttpStatus.BAD_REQUEST);
+            resultJson.put("msg", "请求异常1");
+            return new ResponseEntity<>(resultJson, HttpStatus.BAD_REQUEST);
         }
 
         JSONObject resJson = new JSONObject();
         try {
             resJson = JSON.parseObject(result);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("LeiDianStrategy 调用接口异常resJson null");
+            resultJson.put("code", "102");
+            resultJson.put("payUrl", "");
+            if (result.length() > 100) {
+                result = result.substring(0, 100);
+            }
+            resultJson.put("msg", result);
+            return new ResponseEntity<>(resultJson, HttpStatus.BAD_REQUEST);
         }
         if (ObjectUtils.isEmpty(resJson)) {
             log.error("LeiDianStrategy 调用接口异常resJson null");
+            resultJson.put("code", "102");
             resultJson.put("payUrl", "");
-            return new ResponseEntity<>("请求异常2" + resultJson, HttpStatus.BAD_REQUEST);
+            resultJson.put("msg", "请求异常2");
+            return new ResponseEntity<>(resultJson, HttpStatus.BAD_REQUEST);
         }
 
         if (ObjectUtils.isEmpty(resJson.getString("status")) || !"success".equals(resJson.getString("status"))) {
             log.error("LeiDianStrategy 调用接口异常resJson code" + resJson);
+            resultJson.put("code", "103");
             resultJson.put("payUrl", "");
-            return new ResponseEntity<>("请求异常3" + resultJson, HttpStatus.BAD_REQUEST);
+            resultJson.put("msg", "请求异常3");
+            return new ResponseEntity<>(resultJson, HttpStatus.BAD_REQUEST);
         }
 
         JSONObject midJson = resJson.getJSONObject("data");
         if (ObjectUtils.isEmpty(midJson)) {
             log.error("LeiDianStrategy 调用接口异常resJson data" + resJson);
+            resultJson.put("code", "104");
             resultJson.put("payUrl", "");
-            return new ResponseEntity<>("请求异常4" + resultJson, HttpStatus.BAD_REQUEST);
+            resultJson.put("msg", "请求异常4");
+            return new ResponseEntity<>(resultJson, HttpStatus.BAD_REQUEST);
         }
 
         String returnUrl = "";
         if (midJson.containsKey("pay_url")) {
             returnUrl = midJson.getString("pay_url");
         }
+        resultJson.put("code", "200");
         resultJson.put("payUrl", returnUrl);
-        resultJson.put("payUrl", returnUrl);
+        resultJson.put("msg", "success");
         return new ResponseEntity<>(resultJson, HttpStatus.OK);
     }
 
